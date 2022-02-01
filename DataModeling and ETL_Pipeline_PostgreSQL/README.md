@@ -42,14 +42,38 @@ Using a database makes it easier to analyze the data. By using SQL and the star 
 3. Ran create_tables.py to create database and tables.
 4. Ran test.ipynb to confirm the creation of your tables with the correct columns.
 
-The database schema design and ETL pipeline.
-In order to enable Sparkify to analyze their data, a Relational Database Schema was created, which can be filled with an ETL pipeline.
+#### Built ETL Process
+1. Developed ETL Process for each table as in etl.ipynb
+2. Ran test.ipynb to confirm that records were successfully inserted into each table
 
-The so-called star scheme enables the company to view the user behaviour over several dimensions. The fact table is used to store all user song activities that contain the category "NextSong". Using this table, the company can relate and analyze the dimensions users, songs, artists and time.
+#### Built ETL Pipeline
+A. Completed etl.ipynb 
+    
+1. Performed ETL on the first dataset i.e. song_data to create the songs and artists dimensional tables
+   ##### Songs table
+   - Extracted data(array and converted to list) from JSON for columns song ID, title, artist ID, year, and duration .
+   - Implemented the song_table_insert query in sql_queries.py 
+   ##### Artists table
+   - Extracted data(array and converted to list) from JSON for columns artist ID, name, location, latitude, and longitude.
+   - Implemented artist_table_insert query in sql_queries.
+2. Performed ETL on the second dataset, log_data, to create the time and users dimensional tables, as well as the songplays fact table
+   ##### Tme table
+   - Extracted data(array and converted to list) from JSON for Time Table.
+   - Implemented time_table_insert query in sql_queries.
+   ##### Users table
+   - Extracted data(array and converted to list) from JSON for columns user ID, first name, last name, gender and level 
+   - Implemented user_table_insert query in sql_queries
+   ##### Tme table
+   - information from the songs table, artists table, and original log file are all needed for the songplays table. Since the log file does not specify an ID for either the song      or the artist, I needed to get the song ID and artist ID by querying the songs and artists tables to find matches based on song title, artist name, and song duration time.
+   - Implemented the song_select query in sql_queries.py to find the song ID and artist ID based on the title, artist name, and duration of a song.
+   - Selected the timestamp, user ID, level, song ID, artist ID, session ID, location, and user agent and set to songplay_data
+   - Implemented songplay_table_insert query in sql_queries
+ 
+ B. Used etl.ipynb to complete etl.py  
 
-In order to fill the relational database, an ETL pipeline is used, which makes it possible to extract the necessary information from the log files of the user behaviour as well as the corresponding master data of the songs and convert it into the schema.
+## Summary
+In order to enable Sparkify to analyze their data, a Relational Database Schema was created. Data is later loaded into the tables via an ETL pipeline.
 
-Fact Table: songplays
-Dimension Tables: users, songs, artists and time.
-Dataset used
-The first dataset is a subset of real data from the Million Song Dataset. Each file is in JSON format and contains metadata about a song and the artist of that song. The files are partitioned by the first three letters of each song's track ID. For example, here are filepaths to two files in this dataset.
+The star schema enables the company to view the user behaviour over several dimensions. The fact table is used to store all user song activities that contain the category "NextSong". Using this table, the company can relate and analyze the dimensions users, songs, artists and time.
+
+
